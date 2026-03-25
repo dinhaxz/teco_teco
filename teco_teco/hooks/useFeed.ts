@@ -1,34 +1,31 @@
 import { useState } from 'react';
 
-let globalPosts = [
-  {
-    caption: 'mood 💙',
-    image: 'https://i.pinimg.com/736x/b5/18/41/b5184171fd55fc19e78ef17459bdd908.jpg'
-  },
-  {
-    caption: 'blue aesthetic',
-    image: 'https://i.pinimg.com/1200x/90/82/12/9082121361b8c538bb49d62805ae9943.jpg'
-  },
-  {
-    caption: 'vsco vibes',
-    image: 'https://i.pinimg.com/1200x/73/d8/aa/73d8aa28d40b13a20fa62ec4ebda715f.jpg'
-  },
-  {
-    caption: 'soft life',
-    image: 'https://i.pinimg.com/736x/f8/00/be/f800bea4f45729f2edb06830c44482c9.jpg'
-  },
-  {
-    caption: 'aesthetic post',
-    image: 'https://i.pinimg.com/736x/97/0e/aa/970eaa3354a6b9c3556509816b662cb6.jpg'
-  }
-];
-
 export function useFeed() {
-  const [posts, setPosts] = useState(globalPosts);
+  const [posts, setPosts] = useState([
+    {
+      image: 'https://i.pinimg.com/736x/66/6e/1b/666e1b01bdfd5ad8071c07e07247deed.jpg',
+      caption: 'blue mood 💙',
+    },
+    {
+      image: 'https://i.pinimg.com/736x/00/de/dc/00dedccebacd887f26dc1aa9f66709fe.jpg',
+      caption: 'soft aesthetic',
+    },
+    {
+      image: 'https://i.pinimg.com/736x/d8/86/0d/d8860d5a7bc19a2c5ccde835f96e1ed7.jpg',
+      caption: 'calm vibes',
+    },
+    {
+      image: 'https://i.pinimg.com/736x/e9/24/a2/e924a2f96a833a9987fc6da3598013eb.jpg',
+      caption: 'just breathe',
+    },
+    {
+      image: 'https://i.pinimg.com/736x/a6/25/82/a625823cf0ea4b50ce912a5f9db8c862.jpg',
+      caption: 'late night thoughts',
+    },
+  ]);
 
   function addPost(post: any) {
-    globalPosts = [post, ...globalPosts];
-    setPosts([...globalPosts]);
+    setPosts([post, ...posts]);
   }
 
   return { posts, addPost };
