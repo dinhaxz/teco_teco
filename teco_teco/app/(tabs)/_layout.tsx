@@ -1,35 +1,35 @@
 import { Tabs } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Text } from 'react-native';
 
-export default function TabLayout() {
+export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: '#1DA1F2',
-        tabBarStyle: {
-          backgroundColor: '#fff',
-          borderTopWidth: 0,
-        },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: 'Feed',
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="home" size={22} color={color} />
-          ),
+          tabBarIcon: () => <Text>🏠</Text>,
         }}
       />
 
       <Tabs.Screen
         name="create"
         options={{
-          title: 'Post',
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="add-circle" size={22} color={color} />
-          ),
+          title: 'Postar',
+          tabBarIcon: () => <Text>➕</Text>,
+        }}
+      />
+
+      <Tabs.Screen
+        name="user"
+        options={{
+          title: 'Perfil',
+          tabBarIcon: () => <Text>👤</Text>,
         }}
       />
     </Tabs>

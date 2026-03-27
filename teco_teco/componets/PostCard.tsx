@@ -8,32 +8,14 @@ export function PostCard({ post }: any) {
     <View style={styles.wrapper}>
       <View style={styles.card}>
 
-        {/* IMAGEM DO POST */}
-        <Image
-          source={{ uri: post.image }}
-          style={styles.image}
-          resizeMode="cover"
-        />
-
-        {/* AÇÕES */}
-        <View style={styles.actions}>
-          <TouchableOpacity onPress={() => setLiked(!liked)}>
-            <Text style={{ fontSize: 18 }}>
-              {liked ? '💙' : '🤍'}
-            </Text>
-          </TouchableOpacity>
-
-          <Text style={styles.actionText}>💬</Text>
-          <Text style={styles.actionText}>📤</Text>
-        </View>
+        {/* IMAGEM */}
+        <Image source={{ uri: post.image }} style={styles.image} />
 
         {/* INFO */}
         <View style={styles.footer}>
-          
-          {/* AVATAR COM IMAGEM */}
           <Image
             source={{
-              uri: 'https://i.pinimg.com/736x/97/0e/aa/970eaa3354a6b9c3556509816b662cb6.jpg'
+              uri: 'https://i.pinimg.com/736x/92/65/01/9265017ba8fefd7988e951d0bfa9a983.jpg'
             }}
             style={styles.avatar}
           />
@@ -42,6 +24,12 @@ export function PostCard({ post }: any) {
             <Text style={styles.caption}>{post.caption}</Text>
             <Text style={styles.time}>agora mesmo</Text>
           </View>
+
+          <TouchableOpacity onPress={() => setLiked(!liked)}>
+            <Text style={styles.like}>
+              {liked ? '💙' : '🤍'}
+            </Text>
+          </TouchableOpacity>
         </View>
 
       </View>
@@ -52,35 +40,20 @@ export function PostCard({ post }: any) {
 const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 15,
   },
 
   card: {
-    width: '85%',
+    width: '90%',
     backgroundColor: '#fff',
     borderRadius: 25,
     overflow: 'hidden',
-
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 10,
     elevation: 3,
   },
 
-  // 🔥 IMAGEM VERTICAL BONITA
   image: {
     width: '100%',
-    aspectRatio: 1.5,
-  },
-
-  actions: {
-    flexDirection: 'row',
-    gap: 15,
-    padding: 10,
-  },
-
-  actionText: {
-    fontSize: 18,
+    height: 250,
   },
 
   footer: {
@@ -104,5 +77,9 @@ const styles = StyleSheet.create({
   time: {
     fontSize: 12,
     color: '#777',
+  },
+
+  like: {
+    fontSize: 18,
   },
 });

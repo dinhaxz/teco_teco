@@ -1,56 +1,68 @@
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, Image } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet, Image, Alert } from 'react-native';
 import { useState } from 'react';
-import { useFeed } from '../../hooks/useFeed';
+import { useMutation } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 
 export default function Create() {
   const [caption, setCaption] = useState('');
-  const { addPost } = useFeed();
+  const [image, setImage] = useState('');
 
-  const previewImage =
-    'https://i.pinimg.com/736x/b5/18/41/b5184171fd55fc19e78ef17459bdd908.jpg';
+  const addPost = useMutation(api.posts.addPost);
 
-  function handlePost() {
-    addPost({
-      caption: caption,
-      image: previewImage,
-    });
+  async function handlePost() {
+    console.log("clicou no botão");
 
-    setCaption('');
+    if (!caption.trim() || !image.trim()) {
+      Alert.alert('Erro', 'Preencha todos os campos');
+      return;
+    }
+
+    try {
+      console.log("enviando pro convex...");
+
+      await addPost({
+        text: caption,
+        img: image,
+      });
+
+      console.log("post criado!");
+
+      Alert.alert('Sucesso', 'Post criado 💙');
+
+      setCaption('');
+      setImage('');
+
+    } catch (error) {
+      console.log("ERRO:", error);
+      Alert.alert('Erro', 'Não foi possível postar');
+    }
   }
 
   return (
     <View style={styles.container}>
 
-      {/* PREVIEW DA IMAGEM */}
-      <Image source={{ uri: previewImage }} style={styles.imagePreview} />
+      <Text style={styles.title}>Criar Post</Text>
 
-      {/* INPUT */}
       <TextInput
-        placeholder="Escreva uma legenda..."
+        placeholder="Legenda..."
         value={caption}
         onChangeText={setCaption}
         style={styles.input}
-        multiline
       />
 
-      {/* BOTÕES */}
-      <View style={styles.actions}>
-        <TouchableOpacity style={styles.smallButton}>
-          <Text style={styles.smallText}>🎨 Filtro</Text>
-        </TouchableOpacity>
+      <TextInput
+        placeholder="Link da imagem"
+        value={image}
+        onChangeText={setImage}
+        style={styles.input}
+      />
 
-        <TouchableOpacity style={styles.smallButton}>
-          <Text style={styles.smallText}>📍 Local</Text>
-        </TouchableOpacity>
+      {image !== '' && (
+        <Image source={{ uri: image }} style={styles.preview} />
+      )}
 
-        <TouchableOpacity style={styles.smallButton}>
-          <Text style={styles.smallText}>😊 Emojis</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* BOTÃO PRINCIPAL */}
-      <TouchableOpacity style={styles.postButton} onPress={handlePost}>
-        <Text style={styles.postText}>Publicar</Text>
+      <TouchableOpacity style={styles.button} onPress={handlePost}>
+        <Text style={styles.text}>Publicar</Text>
       </TouchableOpacity>
 
     </View>
@@ -64,48 +76,35 @@ const styles = StyleSheet.create({
     padding: 16,
   },
 
-  imagePreview: {
-    width: '100%',
-    height: 220,
-    borderRadius: 20,
-    marginBottom: 15,
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
 
   input: {
     backgroundColor: '#fff',
     padding: 12,
-    borderRadius: 15,
-    marginBottom: 15,
-    minHeight: 80,
-    textAlignVertical: 'top',
-  },
-
-  actions: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
-
-  smallButton: {
-    backgroundColor: '#d0eaff',
-    padding: 10,
     borderRadius: 12,
+    marginBottom: 10,
   },
 
-  smallText: {
-    fontSize: 12,
+  preview: {
+    width: '100%',
+    height: 220,
+    borderRadius: 20,
+    marginBottom: 10,
   },
 
-  postButton: {
+  button: {
     backgroundColor: '#1DA1F2',
-    padding: 16,
+    padding: 15,
     borderRadius: 15,
     alignItems: 'center',
   },
 
-  postText: {
+  text: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 16,
   },
 });
